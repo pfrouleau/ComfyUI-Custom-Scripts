@@ -439,7 +439,8 @@ Recommended: "enabled (max performance)" uness images are erroneously deduplicat
 							href,
 							onclick: (e) => {
 								const imgs = [...imageList.querySelectorAll("img")].map((img) => img.getAttribute("src"));
-								lightbox.show(imgs, imgs.indexOf(href));
+								const images = feedDirection.value === "newest first" ? imgs.reverse() : imgs;
+								lightbox.show(images, images.indexOf(href));
 								e.preventDefault();
 							},
 						},

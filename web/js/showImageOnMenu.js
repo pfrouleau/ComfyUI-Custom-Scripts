@@ -33,9 +33,9 @@ const ext = {
 				setTimeout(() => {
 					if (lightbox.images?.length) {
 						const imageKey = getImageKey(img.src);
-						const wasNewestFirst = lightbox.index === 0;
+						const newImageIndex = lightbox.images.findIndex((src) => getImageKey(src) === imageKey);
 						const images = lightbox.images.filter((src) => getImageKey(src) !== imageKey);
-						if (images.length > 1 && wasNewestFirst) {
+						if (images.length > 1 && newImageIndex === 0) {
 							images.reverse();
 						}
 						lightbox.images = [...images, img.src];
