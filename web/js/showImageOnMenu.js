@@ -30,14 +30,16 @@ const ext = {
 			},
 			onload: () => {
 				if (!autoShow || !openInLightbox) return;
-				if (lightbox.images?.length) {
-					const imageKey = getImageKey(img.src);
-					lightbox.images = [...lightbox.images.filter((src) => getImageKey(src) !== imageKey), img.src];
-					lightbox.index = lightbox.images.length - 1;
-					void lightbox.update(0);
-				} else {
-					void lightbox.show([img.src], 0);
-				}
+				setTimeout(() => {
+					if (lightbox.images?.length) {
+						const imageKey = getImageKey(img.src);
+						lightbox.images = [...lightbox.images.filter((src) => getImageKey(src) !== imageKey), img.src];
+						lightbox.index = lightbox.images.length - 1;
+						void lightbox.update(0);
+					} else {
+						void lightbox.show([img.src], 0);
+					}
+				}, 0);
 			},
 		});
 		const link = $el(
