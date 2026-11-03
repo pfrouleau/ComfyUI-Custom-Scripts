@@ -33,7 +33,12 @@ const ext = {
 				setTimeout(() => {
 					if (lightbox.images?.length) {
 						const imageKey = getImageKey(img.src);
-						lightbox.images = [...lightbox.images.filter((src) => getImageKey(src) !== imageKey), img.src];
+						const currentKey = getImageKey(lightbox.images[lightbox.index]);
+						const images = lightbox.images.filter((src) => getImageKey(src) !== imageKey);
+						if (images.length > 1 && images.findIndex((src) => getImageKey(src) === currentKey) === 0) {
+							images.reverse();
+						}
+						lightbox.images = [...images, img.src];
 						lightbox.index = lightbox.images.length - 1;
 						void lightbox.update(0);
 					} else {
