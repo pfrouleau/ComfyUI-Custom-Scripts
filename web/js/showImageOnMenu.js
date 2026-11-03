@@ -22,7 +22,7 @@ const ext = {
 			onload: () => {
 				if (!autoShow || !openInLightbox) return;
 				if (lightbox.images?.length) {
-					void lightbox.updateWithNewImage(img.src, "newest first");
+					void lightbox.show([...lightbox.images, img.src], lightbox.images.length);
 				} else {
 					void lightbox.show([img.src], 0);
 				}
