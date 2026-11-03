@@ -21,7 +21,11 @@ const ext = {
 			},
 			onload: () => {
 				if (!autoShow || !openInLightbox) return;
-				void lightbox.show([img.src], 0);
+				if (lightbox.images?.length) {
+					void lightbox.updateWithNewImage(img.src, "newest first");
+				} else {
+					void lightbox.show([img.src], 0);
+				}
 			},
 		});
 		const link = $el(
