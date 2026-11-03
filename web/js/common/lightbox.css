@@ -43,6 +43,16 @@
 	margin: 0 20px 0 0px;
 }
 
+.pysssss-lightbox--newest-first .pysssss-lightbox-prev:after {
+	transform: rotate(45deg) scale(0.75);
+	margin: 0 20px 0 0px;
+}
+
+.pysssss-lightbox--newest-first .pysssss-lightbox-next:after {
+	transform: rotate(-135deg) scale(0.75);
+	margin: 0 10px 0 20px;
+}
+
 .pysssss-lightbox-main {
 	display: grid;
 	flex: auto;

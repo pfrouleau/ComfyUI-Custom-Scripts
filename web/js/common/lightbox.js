@@ -82,6 +82,7 @@ export class Lightbox {
 
 	setDirection(direction) {
 		const newestFirst = direction === "newest first";
+		this.el.classList.toggle("pysssss-lightbox--newest-first", newestFirst);
 		this.prev.style.order = newestFirst ? 3 : 1;
 		this.main.style.order = 2;
 		this.next.style.order = newestFirst ? 1 : 3;
