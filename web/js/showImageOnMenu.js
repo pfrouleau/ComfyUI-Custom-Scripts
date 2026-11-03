@@ -13,6 +13,15 @@ const ext = {
 		let openInLightbox = false;
 		let autoShowButton;
 		const getImageNode = () => app.graph.getNodeById(nodeId) ?? app.graph.getNodeById(Number(nodeId));
+		const getImageKey = (src) => {
+			try {
+				const url = new URL(src, location.href);
+				const params = url.searchParams;
+				return JSON.stringify([params.get("filename"), params.get("type"), params.get("subfolder")]);
+			} catch {
+				return src;
+			}
+		};
 		const img = $el("img", {
 			style: {
 				width: "100%",
@@ -22,7 +31,8 @@ const ext = {
 			onload: () => {
 				if (!autoShow || !openInLightbox) return;
 				if (lightbox.images?.length) {
-					lightbox.images = [...lightbox.images, img.src];
+					const imageKey = getImageKey(img.src);
+					lightbox.images = [...lightbox.images.filter((src) => getImageKey(src) !== imageKey), img.src];
 					lightbox.index = lightbox.images.length - 1;
 					void lightbox.update(0);
 				} else {
