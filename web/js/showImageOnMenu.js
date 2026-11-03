@@ -11,6 +11,7 @@ const ext = {
 		let autoShow = false;
 		let nodeId = null;
 		let openInLightbox = false;
+		let autoShowButton;
 		const getImageNode = () => app.graph.getNodeById(nodeId) ?? app.graph.getNodeById(Number(nodeId));
 		const img = $el("img", {
 			style: {
@@ -47,6 +48,21 @@ const ext = {
 		);
 
 		app.ui.menuContainer.append(link);
+		autoShowButton = $el("button", {
+			type: "button",
+			textContent: "Auto",
+			title: "Automatically show new final images",
+			ariaPressed: "false",
+			onclick: () => setAutoShow(!autoShow),
+		});
+		app.ui.menuContainer.append(autoShowButton);
+
+		const setAutoShow = (value) => {
+			autoShow = !!value;
+			autoShowButton.textContent = autoShow ? "Auto: ON" : "Auto: OFF";
+			autoShowButton.ariaPressed = String(autoShow);
+			autoShowButton.classList.toggle("active", autoShow);
+		};
 
 		const show = (src, node, shouldOpenInLightbox) => {
 			const lightboxWasOpen = lightbox.el.style.display !== "none" && lightbox.el.style.opacity !== "0";
@@ -92,10 +108,10 @@ const ext = {
 			defaultValue: false,
 			type: "boolean",
 			onChange(value) {
-				autoShow = value;
+				setAutoShow(value);
 			},
 		});
-		autoShow = app.ui.settings.getSettingValue(`${id}.AutoShow`, false);
+		setAutoShow(app.ui.settings.getSettingValue(`${id}.AutoShow`, false));
 	},
 };
 
