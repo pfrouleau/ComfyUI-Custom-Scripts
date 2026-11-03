@@ -339,6 +339,7 @@ app.registerExtension({
 								oninput: (e) => {
 									feedDirection.value = e.target.value;
 									imageList.replaceChildren(...[...imageList.childNodes].reverse());
+									lightbox.setDirection(feedDirection.value);
 								},
 							},
 							["newest first", "oldest first"].map((m) =>
@@ -353,6 +354,7 @@ app.registerExtension({
 				]);
 			},
 		});
+		lightbox.setDirection(feedDirection.value);
 
 		const deduplicateFeed = app.ui.settings.addSetting({
 			id: "pysssss.ImageFeed.Deduplication",

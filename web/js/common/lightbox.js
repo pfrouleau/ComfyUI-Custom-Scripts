@@ -80,6 +80,13 @@ export class Lightbox {
 		);
 	}
 
+	setDirection(direction) {
+		const newestFirst = direction === "newest first";
+		this.prev.style.order = newestFirst ? 3 : 1;
+		this.main.style.order = 2;
+		this.next.style.order = newestFirst ? 1 : 3;
+	}
+
 	async show(images, index) {
 		this.images = images;
 		this.index = index || 0;
