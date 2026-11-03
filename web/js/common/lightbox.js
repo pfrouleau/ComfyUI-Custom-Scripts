@@ -67,9 +67,10 @@ export class Lightbox {
 					return;
 				}
 				const direction = Math.sign(e.deltaY);
-				this.update(direction);
+				this.update(direction * this.navigationStep);
 			},
 		});
+		this.setDirection("oldest first");
 	}
 
 	close() {
@@ -82,10 +83,20 @@ export class Lightbox {
 
 	setDirection(direction) {
 		const newestFirst = direction === "newest first";
+		this.direction = direction;
+		this.navigationStep = newestFirst ? -1 : 1;
 		this.el.classList.toggle("pysssss-lightbox--newest-first", newestFirst);
 		this.prev.style.order = newestFirst ? 3 : 1;
 		this.main.style.order = 2;
 		this.next.style.order = newestFirst ? 1 : 3;
+		this.prev.onclick = (e) => {
+			this.update(-this.navigationStep);
+			e.stopImmediatePropagation();
+		};
+		this.next.onclick = (e) => {
+			this.update(this.navigationStep);
+			e.stopImmediatePropagation();
+		};
 	}
 
 	async show(images, index) {
@@ -103,8 +114,8 @@ export class Lightbox {
 		}
 		this.index += shift;
 
-		this.prev.style.visibility = this.index ? "unset" : "hidden";
-		this.next.style.visibility = this.index === this.images.length - 1 ? "hidden" : "unset";
+		this.prev.style.visibility = this.index - this.navigationStep >= 0 && this.index - this.navigationStep < this.images.length ? "unset" : "hidden";
+		this.next.style.visibility = this.index + this.navigationStep >= 0 && this.index + this.navigationStep < this.images.length ? "unset" : "hidden";
 
 		const img = this.images[this.index];
 		this.el.style.display = "flex";
