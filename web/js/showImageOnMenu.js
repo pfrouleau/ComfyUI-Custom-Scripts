@@ -91,8 +91,16 @@ const ext = {
 
 		const show = (src, node, shouldOpenInLightbox) => {
 			const lightboxWasOpen = lightbox.el.style.display !== "none" && lightbox.el.style.opacity !== "0";
+			const newestFirst = lightbox.direction === "newest first";
+			const currentIndex = lightbox.index;
+			const latestIndex = newestFirst ? 0 : (lightbox.images?.length ?? 0) - 1;
+			const newImageKey = getImageKey(src);
+			const feedAlreadyUpdated = lightbox.images?.length
+				&& ((newestFirst && getImageKey(lightbox.images[0]) === newImageKey && currentIndex === 1) ||
+					(!newestFirst && getImageKey(lightbox.images[lightbox.images.length - 1]) === newImageKey && currentIndex === lightbox.images.length - 2));
+			const showingLatest = currentIndex === latestIndex || feedAlreadyUpdated;
 			nodeId = node;
-			openInLightbox = shouldOpenInLightbox && lightboxWasOpen;
+			openInLightbox = shouldOpenInLightbox && lightboxWasOpen && showingLatest;
 			link.style.display = "unset";
 			img.src = src;
 		};
