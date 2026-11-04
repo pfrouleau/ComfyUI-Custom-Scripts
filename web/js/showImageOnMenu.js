@@ -87,7 +87,13 @@ const ext = {
 			autoShowButton.textContent = autoShow ? "Auto: ON" : "Auto: OFF";
 			autoShowButton.ariaPressed = String(autoShow);
 			autoShowButton.classList.toggle("active", autoShow);
+			lightbox.setAutoShow(autoShow);
 		};
+		addEventListener("keydown", (event) => {
+			if (event.code !== "Space" || (event.target instanceof HTMLElement && event.target.matches("input, textarea, select, button, [contenteditable='true']"))) return;
+			event.preventDefault();
+			setAutoShow(!autoShow);
+		});
 
 		const show = (src, node, shouldOpenInLightbox) => {
 			const lightboxWasOpen = lightbox.el.style.display !== "none" && lightbox.el.style.opacity !== "0";

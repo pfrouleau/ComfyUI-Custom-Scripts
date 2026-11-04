@@ -99,6 +99,10 @@ export class Lightbox {
 		};
 	}
 
+	setAutoShow(enabled) {
+		this.el.classList.toggle("pysssss-lightbox--auto-show", enabled);
+	}
+
 	async show(images, index) {
 		this.images = images;
 		this.index = index || 0;
