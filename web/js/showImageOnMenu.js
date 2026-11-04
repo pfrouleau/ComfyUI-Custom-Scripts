@@ -9,6 +9,7 @@ const ext = {
 	async setup(app) {
 		let enabled = true;
 		let autoShow = false;
+		let toggleKey = "Space";
 		let nodeId = null;
 		let openInLightbox = false;
 		let autoShowButton;
@@ -90,7 +91,7 @@ const ext = {
 			lightbox.setAutoShow(autoShow);
 		};
 		addEventListener("keydown", (event) => {
-			if (event.code !== "Space" || (event.target instanceof HTMLElement && event.target.matches("input, textarea, select, button, [contenteditable='true']"))) return;
+			if (event.code !== toggleKey || (event.target instanceof HTMLElement && event.target.matches("input, textarea, select, button, [contenteditable='true']"))) return;
 			event.preventDefault();
 			setAutoShow(!autoShow);
 		});
@@ -151,6 +152,17 @@ const ext = {
 			},
 		});
 		setAutoShow(app.ui.settings.getSettingValue(`${id}.AutoShow`, false));
+
+		app.ui.settings.addSetting({
+			id: `${id}.ToggleKey`,
+			name: "🐍 Automatic Image Display Toggle Key",
+			defaultValue: "Space",
+			type: "text",
+			onChange(value) {
+				toggleKey = value || "Space";
+			},
+		});
+		toggleKey = app.ui.settings.getSettingValue(`${id}.ToggleKey`, "Space") || "Space";
 	},
 };
 
